@@ -63,6 +63,8 @@ void	init_data(t_data *data, char **argv)
 	data->time_to_die = ft_atoi(argv[2]);
 	data->time_to_eat = ft_atoi(argv[3]);
 	data->time_to_sleep = ft_atoi(argv[4]);
+	if (data->time_to_eat < 3 || data->time_to_sleep < 3)
+		ft_error(data, "Time to eat and time to sleep must be at least 3ms");
 	data->num_meals_required = -1;
 	if (argv[5])
 		data->num_meals_required = ft_atoi(argv[5]);
