@@ -7,15 +7,17 @@
 # include <unistd.h>
 # include <sys/time.h>
 # include <sys/wait.h>
+# include <pthread.h>
 # include <semaphore.h>
+# include <fcntl.h>
 
 typedef struct s_philo
 {
 	int				philo_id;
 	pid_t			philo_pid;
-	pid_t			monitor_pid;
+	pthread_t		monitor_thread;
 	sem_t			eating_sem;
-	struct s_data	*datacpy;
+	struct s_data	**data;
 	int				eating;
 	int				left_fork;
 	int				right_fork;
@@ -34,8 +36,6 @@ typedef struct s_data
 	t_philo			*philosophers;
 	int				stop;
 	sem_t			*forks;
-	sem_t			print_sem;
-	sem_t			stop_sem;
 	int				forks_sem_init;
 	int				print_sem_init;
 	int				stop_sem_init;
@@ -44,6 +44,7 @@ typedef struct s_data
 
 int			ft_atoi(const char *str);
 int			ft_strcmp(const char *str1, const char *str2);
+void		ft_destroy_sem(t_data *data);
 void		ft_error(t_data *data, char *message);
 long long	ft_current_time(void);
 void		upgrade_sleep(long long time);

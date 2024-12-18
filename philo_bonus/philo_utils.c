@@ -1,13 +1,13 @@
 #include "philo.h"
 
-static void	ft_destroy_sem(t_data *data)
+void	ft_destroy_sem(t_data *data)
 {
 	int	i;
 
-	if (data->print_sem_init)
-		sem_destroy(&data->print_sem);
 	if (data->stop_sem_init)
-		sem_destroy(&data->stop_sem);
+		sem_unlink("/stop_sem_global");
+	if (data->print_sem_init)
+		sem_unlink("/print_sem_global");
 	if (data->forks_sem_init)
 	{
 		i = 0;
@@ -38,8 +38,17 @@ void	ft_error(t_data *data, char *message)
 
 void	ft_print(t_data *data, int id, char *message)
 {
-	sem_wait(&(data->stop_sem));
-	sem_wait(&(data->print_sem));
+	sem_t *stop_sem_global;
+	sem_t *print_sem_global;
+
+	stop_sem_global = sem_open("/stop_sem_global", 0);
+	if (stop_sem_global == SEM_FAILED)
+		ft_error(data, "Error opening stop semaphore");
+	print_sem_global = sem_open("/print_sem_global", 0);
+	if (print_sem_global == SEM_FAILED)
+		ft_error(data, "Error opening print semaphore");
+	sem_wait(stop_sem_global);
+	sem_wait(print_sem_global);
 	if (!data->stop)
 	{
 		if (ft_strcmp(message, "died") == 0)
@@ -48,8 +57,8 @@ void	ft_print(t_data *data, int id, char *message)
 		printf("%d ", id + 1);
 		printf("%s\n", message);
 	}
-	sem_post(&(data->print_sem));
-	sem_post(&(data->stop_sem));
+	sem_post(print_sem_global);
+	sem_post(stop_sem_global);
 }
 
 long long	ft_current_time(void)

@@ -2,16 +2,16 @@
 
 static void	init_semaphores(t_data *data)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 
 	i = 0;
-	if (sem_init(&data->stop_sem, 0, 1) != 0)
+	sem_unlink("/stop_sem_global"); //TODO: también al cerrar programa!
+	if (sem_open("/stop_sem_global", O_CREAT | O_EXCL, 0644, 1) == SEM_FAILED)
 		ft_error(data, "Error initializing stop semaphore");
-	data->stop_sem_init = 1;
-	if (sem_init(&data->print_sem, 0, 1) != 0)
+	sem_unlink("/print_sem_global"); //TODO: también al cerrar programa!
+	if (sem_open("/print_sem_global", O_CREAT | O_EXCL, 0644, 1) == SEM_FAILED)
 		ft_error(data, "Error initializing print semaphore");
-	data->print_sem_init = 1;
 	while (i < data->num_philosophers)
 	{
 		if (sem_init(&data->forks[i], 0, 1) != 0)
@@ -43,7 +43,7 @@ static void	init_philosophers(t_data *data)
 		}
 		data->philosophers[i].finished = 0;
 		data->philosophers[i].philo_id = i;
-		data->philosophers[i].datacpy = data;
+		data->philosophers[i].data = &data;
 		data->philosophers[i].last_meal_time = ft_current_time();
 		data->philosophers[i].eating = 0;
 		data->philosophers[i].left_fork = i;
