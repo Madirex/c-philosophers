@@ -12,7 +12,6 @@ typedef struct s_philo
 {
 	int				philo_id;
 	pthread_t		philo_thread;
-	pthread_t		monitor_thread;
 	pthread_mutex_t	eating_mutex;
 	struct s_data	*datacpy;
 	int				eating;
@@ -49,5 +48,4 @@ void		upgrade_sleep(long long time);
 void		init_data(t_data *data, char **argv);
 void		ft_print(t_data *data, int id, char *message);
 void		*philosopher_routine(void *philosopher);
-void		*philosopher_monitor(void *philosopher);
 #endif

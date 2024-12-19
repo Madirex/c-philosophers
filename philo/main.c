@@ -10,9 +10,6 @@ static void	create_pthreads(t_data *data)
 		if (pthread_create(&data->philosophers[i].philo_thread, NULL,
 				philosopher_routine, &data->philosophers[i]) != 0)
 			ft_error(data, "Error creating thread");
-		if (pthread_create(&data->philosophers[i].monitor_thread, NULL,
-				philosopher_monitor, &data->philosophers[i]) != 0)
-			ft_error(data, "Error creating monitor thread");
 		i++;
 	}
 }
@@ -27,8 +24,6 @@ static void	thread_handler(t_data *data)
 	{
 		if (pthread_join(data->philosophers[i].philo_thread, NULL) != 0)
 			ft_error(data, "Error waiting thread");
-		if (pthread_join(data->philosophers[i].monitor_thread, NULL) != 0)
-			ft_error(data, "Error waiting monitor thread");
 		i++;
 	}
 	i = 0;

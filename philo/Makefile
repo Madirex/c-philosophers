@@ -12,9 +12,8 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -pthread
 RM = rm -f
 
-# Crear directorios necesarios para los archivos .o
 $(OBJ_DIR)/%.o: %.c philo.h
-	mkdir -p $(@D) # Asegura que el directorio exista
+	mkdir -p $(@D)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJ)
