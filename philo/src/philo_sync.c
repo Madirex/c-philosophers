@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo_sync.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: anmateo- <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/01/03 19:11:54 by anmateo-          #+#    #+#             */
+/*   Updated: 2025/01/03 19:13:49 by anmateo-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../philo.h"
 
 static void	*philosopher_death_check(void *philosopher)
@@ -21,7 +33,6 @@ static void	*philosopher_death_check(void *philosopher)
 	pthread_mutex_unlock(&(philo->datacpy->stop_mutex));
 	return (NULL);
 }
-
 
 static int	philosopher_take_forks(t_philo *philo)
 {
@@ -73,8 +84,7 @@ void	*philosopher_routine(void *philosopher)
 	if ((philo->philo_id - 1) % 2 == 0)
 		upgrade_sleep(philo->datacpy->time_to_eat - 10);
 	pthread_mutex_lock(&philo->datacpy->stop_mutex);
-	while (!philo->datacpy->stop
-		&& (philo->datacpy->num_meals_required == -1
+	while (!philo->datacpy->stop && (philo->datacpy->num_meals_required == -1
 			|| i < philo->datacpy->num_meals_required))
 	{
 		pthread_mutex_unlock(&philo->datacpy->stop_mutex);
