@@ -1,6 +1,6 @@
 # c-philosophers
 
-This project simulates a dining philosophers problem using threads and mutexes (main) and processes and semaphores (bonus). The goal is to model the life cycle of philosophers who are trying to eat while avoiding starvation and deadlock, with the system enforcing proper synchronization between threads or processes.
+This project simulates a dining philosophers problem using threads and mutexes. The goal is to model the life cycle of philosophers who are trying to eat while avoiding starvation and deadlock, with the system enforcing proper synchronization between threads or processes.
 
 ## Arguments:
 - `number_of_philosophers`: The number of philosophers (and forks) involved in the simulation.
@@ -16,7 +16,3 @@ This project simulates a dining philosophers problem using threads and mutexes (
 # Main Part: `philo`
 ## Description:
 Philosophers implementation using threads and mutexes.
-  
-# Bonus Part: `philo_bonus`
-## Description:
-Philosophers implementation using processes and semaphores.
